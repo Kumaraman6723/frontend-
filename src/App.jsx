@@ -16,7 +16,9 @@ import UserLogsPage from "./pages/UserLogsPage/UserLogsPage.jsx";
 import AllUserLogsPage from "./pages/AllUserLogsPage/AllUserLogsPage.jsx";
 import AdminLogsPage from "./pages/AdminLogsPage/AdminLogsPage.jsx";
 import Contactus from "./pages/ContactusPage/Contactus.jsx";
+import LoadingSpinner from "./components/LoadingSpinner.jsx";
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode === "true";
@@ -40,9 +42,22 @@ function App() {
     localStorage.setItem("isLoggedIn", isLoggedIn);
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    // Simulate loading time and ensure app is ready
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div
